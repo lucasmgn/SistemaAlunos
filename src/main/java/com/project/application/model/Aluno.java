@@ -3,18 +3,18 @@ package com.project.application.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
 @Getter
 @Setter
-public class Aluno {
+public class Aluno implements Comparable<Aluno> {
 
     private Long matricula;
     private String nome;
     private Integer frequencia;
-    private List<Double> notas = new ArrayList<Double>();
+    private List<Double> notas;
     private int serie;
     private SexoAluno sexo;
 
@@ -29,12 +29,10 @@ public class Aluno {
 
     @Override
     public String toString() {
+        String formatacaoNotas = Arrays.toString(notas.toArray()).replace("[", "").replace("]", "");
         return "Matricula = " + matricula +
                 "\nNome = " + nome +
-                "\nFrequência = " + frequencia + " aulas" +
-                "\nNotas = " + notas +
-                "\nSérie = " + serie + "ºano" +
-                "\nSexo = " + sexo;
+                "\nNotas = " + formatacaoNotas;
     }
 
     public Double getMedia(){
@@ -45,5 +43,15 @@ public class Aluno {
         }
 
         return soma/this.notas.size();
+    }
+
+    @Override
+    public int compareTo(Aluno o) {
+        if (this.matricula > o.matricula) {
+            return 1;
+        }else if(this.matricula < o.matricula){
+            return -1;
+        }
+        return this.getMatricula().compareTo(o.getMatricula());
     }
 }
